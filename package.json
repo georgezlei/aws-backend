@@ -1,0 +1,13 @@
+{
+  "name": "aws-backend",
+  "version": "1.0.0",
+  "description": "AWS backend project",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "George Lei",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
