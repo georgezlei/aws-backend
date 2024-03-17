@@ -9,8 +9,8 @@
     "build": "webpack --config config/webpack.config.js",
     "test": "jest --config=jest.config.js",
     "integration-test": "./run-integration-test.sh",
-    "lint": "eslint . --config config/.eslintrc.js",
-    "eslint-autofix": "eslint . --fix  --config config/.eslintrc.js",
+    "lint": "eslint . --config config/.eslintrc.js --ignore-path config/.eslintignore",
+    "eslint-autofix": "eslint . --fix  --config config/.eslintrc.js --ignore-path config/.eslintignore",
     "typecheck": "tsc --project tsconfig.dev.json",
     "render": "terrafirma render -c ./infrastructure/config.yaml"
   },
