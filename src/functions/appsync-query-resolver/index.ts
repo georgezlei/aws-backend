@@ -1,17 +1,5 @@
-export const handler = async (event: any) => {
-  try {
-    // TODO: Add your code here
+import { AppSyncResolverEvent } from "aws-lambda";
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Success' }),
-    };
-  } catch (error) {
-    console.error('Error:', error);
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
-  }
-};
+export async function handler(event: AppSyncResolverEvent<{}, {}>) {
+  console.log("Received event:", JSON.stringify(event, null, 2));
+}

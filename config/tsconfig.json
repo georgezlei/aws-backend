@@ -1,0 +1,36 @@
+{
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "allowUnreachableCode": false,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "target": "ES6",
+    "lib": ["ES2022"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "outDir": "ts",
+    "baseUrl": ".",
+    "paths": {
+      "@/repositories/*": ["../src/repositories/*"],
+      "@/lib/*": ["../src/lib/*"],
+      "@/schemas/*": ["../src/schemas/*"]
+    },
+    "resolveJsonModule": true
+  },
+  "include": ["../src/**/*"],
+  "exclude": [
+    "../node_modules",
+    "jest-dynalite-config.ts",
+    "**/__tests__/**.[j|t]s",
+    "**/*.config.[j|t]s"
+  ]
+}

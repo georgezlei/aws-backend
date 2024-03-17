@@ -3,11 +3,29 @@
   "version": "1.0.0",
   "description": "AWS backend project",
   "scripts": {
-    "start": "node index.js"
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "typescript-compile": "tsc",
+    "build": "webpack --config config/webpack.config.js",
+    "test": "jest --config=jest.config.js",
+    "integration-test": "./run-integration-test.sh",
+    "lint": "eslint .",
+    "eslint-autofix": "eslint . --fix",
+    "typecheck": "tsc --project tsconfig.dev.json",
+    "render": "terrafirma render -c ./infrastructure/config.yaml"
   },
   "author": "George Lei",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "@types/aws-lambda": "^8.10.136",
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
+    "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7"
   }
 }
