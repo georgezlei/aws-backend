@@ -18,3 +18,9 @@ The project is configured to use ESLint to lint the code. Use command `npm run l
 The project is configured to use Jest to run unit tests. Use command `npm run test` to run the unit tests.
 
 Dynalite is used to run a local DynamoDB instance for testing.
+
+## Integration Test
+
+The project is configured to use Jest to run integration tests. Use command `npm run test:integration` to run the integration tests.
+
+It will use the local AWS configuration in `~/.aws/config` and `~/.aws/credentials` to connect to the AWS services.
