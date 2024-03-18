@@ -8,11 +8,10 @@
     "typescript-compile": "tsc",
     "build": "webpack --config config/webpack.config.js",
     "test": "jest --config=config/jest.config.js",
-    "integration-test": "./run-integration-test.sh",
+    "test:integration": "jest --config=config/jest.integration.config.js",
     "lint": "eslint . --config config/.eslintrc.js --ignore-path config/.eslintignore",
     "eslint-autofix": "eslint . --fix  --config config/.eslintrc.js --ignore-path config/.eslintignore",
-    "typecheck": "tsc --project tsconfig.dev.json",
-    "render": "terrafirma render -c ./infrastructure/config.yaml"
+    "typecheck": "tsc --project config/tsconfig.dev.json"
   },
   "author": "George Lei",
   "license": "MIT",
