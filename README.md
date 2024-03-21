@@ -4,6 +4,12 @@ This is a template project included configuration and template codes of an AWS b
 
 The following features are included:
 
+## Requirements
+
+- Node.js
+- AWS CLI
+- AWS configuration and credentials
+
 ## Build from Typescript to Javascript
 
 The project is written in Typescript. The build process is configured to compile the Typescript code to Javascript.
@@ -24,3 +30,11 @@ Dynalite is used to run a local DynamoDB instance for testing.
 The project is configured to use Jest to run integration tests. Use command `npm run test:integration` to run the integration tests.
 
 It will use the local AWS configuration in `~/.aws/config` and `~/.aws/credentials` to connect to the AWS services.
+
+## Deployment
+
+CloudFormation is used to deploy the AWS resources. Use the following command to deploy the resources:
+
+1. In a new AWS account, run `npm run deploy:bootstrap` to create the S3 bucket for the deployment.
+
+2. Run `npm run deploy` to deploy the resources.

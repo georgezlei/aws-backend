@@ -1,5 +1,5 @@
 .DS_Store
-
+.deploy.yaml
 node_modules/
 dist/
 test-results/

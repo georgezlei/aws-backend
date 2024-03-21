@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  GroupName:
+    Description: Service name
+    Type: String
+    Default: "aws-template"
+
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${GroupName}-lambda-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  AppsyncQueryResolver:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: ../dist/appsync-query-resolver
+      Handler: index.handler
+      FunctionName: !Sub ${GroupName}-appsync-query-resolver
+      Role: !GetAtt LambdaRole.Arn
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Timeout: 180

@@ -11,7 +11,10 @@
     "test:integration": "jest --config=config/jest.integration.config.js",
     "lint": "eslint . --config config/.eslintrc.js --ignore-path config/.eslintignore",
     "eslint-autofix": "eslint . --fix  --config config/.eslintrc.js --ignore-path config/.eslintignore",
-    "typecheck": "tsc --project config/tsconfig.dev.json"
+    "typecheck": "tsc --project config/tsconfig.dev.json",
+    "deploy:bootstrap": "aws s3 mb s3://aws-template-deploy-bucket",
+    "deploy:package": "aws cloudformation package --template-file cloudformation/main.yaml --s3-bucket aws-template-deploy-bucket --output-template-file .deploy.yaml",
+    "deploy": "npm run deploy:package && aws cloudformation deploy --template-file .deploy.yaml --stack-name aws-backend --capabilities CAPABILITY_NAMED_IAM"
   },
   "author": "George Lei",
   "license": "MIT",
