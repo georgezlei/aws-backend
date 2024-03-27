@@ -1,0 +1,14 @@
+{
+  "schemaPaths": [
+    "../../appsync/schema.sdl"
+  ],
+  "rules": [
+    "types-are-capitalized",
+    "input-object-values-are-camel-cased",
+    "fields-are-camel-cased",
+    "enum-values-all-caps",
+    "descriptions-are-capitalized",
+    "relay-connection-types-spec",
+    "relay-connection-arguments-spec"
+  ]
+}

@@ -10,11 +10,21 @@
     "test": "jest --config=config/jest.config.js",
     "test:integration": "jest --config=config/jest.integration.config.js",
     "lint": "eslint . --config config/.eslintrc.js --ignore-path config/.eslintignore",
+    "lint:schema": "graphql-schema-linter -c config/.graphql-schema-linterrc",
     "eslint-autofix": "eslint . --fix  --config config/.eslintrc.js --ignore-path config/.eslintignore",
     "typecheck": "tsc --project config/tsconfig.dev.json",
     "deploy:bootstrap": "aws s3 mb s3://aws-template-deploy-bucket",
     "deploy:package": "aws cloudformation package --template-file cloudformation/main.yaml --s3-bucket aws-template-deploy-bucket --output-template-file .deploy.yaml",
-    "deploy": "npm run deploy:package && aws cloudformation deploy --template-file .deploy.yaml --stack-name aws-template --capabilities CAPABILITY_NAMED_IAM"
+    "deploy": "npm run deploy:package && aws cloudformation deploy --template-file .deploy.yaml --stack-name aws-template --capabilities CAPABILITY_NAMED_IAM",
+    "deploy:delete": "aws cloudformation delete-stack --stack-name aws-template"
+  },
+  "lint-staged": {
+    "src/**/*": [
+      "eslint . --config config/.eslintrc.js --ignore-path config/.eslintignore"
+    ],
+    "appsync/schema.sdl": [
+      "graphql-schema-linter -c config/.graphql-schema-linterrc"
+    ]
   },
   "author": "George Lei",
   "license": "MIT",
@@ -24,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.57.0",
+    "graphql-schema-linter": "^3.0.1",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "jest-dynalite": "^3.6.1",

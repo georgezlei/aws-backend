@@ -30,3 +30,11 @@ Resources:
       Runtime: nodejs18.x
       MemorySize: 512
       Timeout: 180
+
+  AppsyncSubstack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./appsync.yaml
+      Parameters:
+        GroupName: !Ref GroupName
+        GetUserFunctionArn: !GetAtt AppsyncQueryResolver.Arn

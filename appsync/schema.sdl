@@ -1,0 +1,19 @@
+"""
+Query root
+"""
+type Query { 
+  getUser(id: ID!): User
+}
+
+"""
+Mutation root
+"""
+type Mutation {
+  createUser(name: String!, email: String!): User!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
