@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  GroupName:
+    Description: Service name
+    Type: String
+    Default: "aws-template"
+  UserHandlerFunctionArn:
+    Type: String
+    Description: The ARN of the Lambda function that handles /user requests
+
+Resources:
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub ${GroupName}-http-api
+      ProtocolType: HTTP
+      Description: A Template HTTP API Gateway
+
+  # Define the /user route
+  UserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: ANY /user # Supports both GET and POST (and other methods)
+      AuthorizationType: NONE # Change or remove this line according to your auth needs
+      Target: !Join
+        - "/"
+        - - "integrations"
+          - !Ref UserLambdaIntegration
+
+  UserLambdaIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Ref UserHandlerFunctionArn
+      PayloadFormatVersion: "2.0"
+
+  # Deploy the API
+  HttpApiDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    Properties:
+      ApiId: !Ref HttpApi
+    DependsOn:
+      - UserRoute
+
+  # Stage - assume default auto-deploy is enabled
+  HttpApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref HttpApi
+      DeploymentId: !Ref HttpApiDeployment
+      StageName: $default
+      AutoDeploy: true
+
+Outputs:
+  HttpApiUrl:
+    Description: "HTTP API URL"
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"

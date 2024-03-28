@@ -39,3 +39,7 @@ CloudFormation is used for deploying the AWS resources. To deploy the resources,
 ### GraphQL Definition and Implementation Using AppSync
 
 The template includes a GraphQL schema defined in `appsync/schema.sdl`. It also utilizes the CloudFormation template `cloudformation/appsync.yaml` to deploy the schema, resolvers, and data sources to AWS.
+
+### API Gateway
+
+An implementation of HTTP API using API Gateway is included.

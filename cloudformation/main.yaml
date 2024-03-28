@@ -20,12 +20,23 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
-  AppsyncQueryResolver:
+  AppsyncQueryResolverFunction:
     Type: AWS::Lambda::Function
     Properties:
       Code: ../dist/appsync-query-resolver
       Handler: index.handler
       FunctionName: !Sub ${GroupName}-appsync-query-resolver
+      Role: !GetAtt LambdaRole.Arn
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Timeout: 180
+
+  ApiGatewayHandlerFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: ../dist/apigateway-handler
+      Handler: index.handler
+      FunctionName: !Sub ${GroupName}-apigateway-handler
       Role: !GetAtt LambdaRole.Arn
       Runtime: nodejs18.x
       MemorySize: 512
@@ -37,4 +48,12 @@ Resources:
       TemplateURL: ./appsync.yaml
       Parameters:
         GroupName: !Ref GroupName
-        GetUserFunctionArn: !GetAtt AppsyncQueryResolver.Arn
+        GetUserFunctionArn: !GetAtt AppsyncQueryResolverFunction.Arn
+
+  ApiGatewaySubstack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./api-gateway.yaml
+      Parameters:
+        GroupName: !Ref GroupName
+        UserHandlerFunctionArn: !GetAtt ApiGatewayHandlerFunction.Arn
