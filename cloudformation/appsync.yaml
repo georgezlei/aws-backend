@@ -70,6 +70,11 @@ Resources:
         FieldLogLevel: ALL
         CloudWatchLogsRoleArn: !GetAtt CloudWatchLogsRole.Arn
 
+  ApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+
   Schema:
     Type: AWS::AppSync::GraphQLSchema
     Properties:
@@ -93,14 +98,3 @@ Resources:
       DataSourceName: !GetAtt GetUserFunctionDataSource.Name
       TypeName: Query
       FieldName: getUser
-      RequestMappingTemplate: |
-        {
-          "version": "2017-02-28",
-          "operation": "Invoke",
-          "payload": {
-            "field": "getUser",
-            "arguments": $util.toJson($ctx.arguments)
-          }
-        }
-      ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
