@@ -1,45 +1,48 @@
-# AWS Template
+# AWS Backend Template with TypeScript
 
-This is a template project that provides configuration and template codes for an AWS backend project written in Typescript. It can be used to create a monorepo for the entire backend system of an app or a microservice within a larger system.
+Welcome to a sophisticated template designed to streamline the creation and deployment of backend systems on AWS using TypeScript. This meticulously crafted template serves as a cornerstone for developing a unified monorepo for your application's backend infrastructure or integrating a microservice into an extensive ecosystem.
 
-## Features
+## Elevating Your Backend with Rich Features
 
-The template project includes the following features:
+Embark on a journey with a template enriched with cutting-edge features tailored for robust backend development:
 
-### Requirements
+### Prerequisites
 
-- Node.js
-- AWS CLI
-- AWS configuration and credentials
+Before you dive in, ensure you're equipped with:
 
-### Build
+- Node.js - The runtime environment for executing JavaScript code server-side.
+- AWS CLI - Your command-line companion for AWS services management.
+- AWS Configuration and Credentials - Essential for authenticating and authorising your interactions with AWS services.
 
-The project is written in Typescript and can be built using the command `npm run build`. This will compile the Typescript code to Javascript.
+### Building Your Vision
 
-### Linting
+Leveraging TypeScript, this project transforms your code from TypeScript to JavaScript seamlessly. Initiate the build process with `npm run build` and watch your TypeScript code evolve.
 
-The project is configured to use ESLint for code linting. Use the command `npm run lint` to lint the code.
+### Code Excellence through Linting
 
-### Unit Testing
+Maintain high code quality and consistency with ESLint integration. Execute `npm run lint` to scrutinise your code for potential improvements.
 
-The project utilizes Jest for running unit tests. Use the command `npm run test` to execute the unit tests. Dynalite is used to run a local DynamoDB instance for testing.
+### Unit Testing with Jest
 
-### Integration Testing
+Empower your development with Jest for unit testing, ensuring each component performs as expected. Dynalite facilitates a simulated DynamoDB environment for comprehensive testing. Trigger your unit tests with `npm run test`.
 
-Jest is also used for running integration tests. Use the command `npm run test:integration` to run the integration tests. The tests will utilize the local AWS configuration in `~/.aws/config` and `~/.aws/credentials` to connect to the AWS services.
+### Integration Testing: Beyond the Unit
 
-### Deployment
+Extend testing to integration levels with Jest, utilising local AWS configurations for a seamless test execution environment. Launch your integration tests with `npm run test:integration`.
 
-CloudFormation is used for deploying the AWS resources. To deploy the resources, follow these steps:
+### Seamless Deployment with CloudFormation
 
-1. In a new AWS account, run `npm run deploy:bootstrap` to create the S3 bucket for deployment.
+Deploy your AWS resources effortlessly:
 
-2. Run `npm run deploy` to deploy the resources.
+1. Initialise with `npm run deploy:bootstrap` to create the necessary S3 bucket in a new AWS account.
+2. Execute `npm run deploy` to unfold your resources into the AWS ecosystem.
 
-### GraphQL Definition and Implementation Using AppSync
+### GraphQL: Schema to Solution
 
-The template includes a GraphQL schema defined in `appsync/schema.sdl`. It also utilizes the CloudFormation template `cloudformation/appsync.yaml` to deploy the schema, resolvers, and data sources to AWS.
+Incorporate GraphQL into your project with an outlined schema in `appsync/schema.sdl` and a CloudFormation blueprint in `cloudformation/appsync.yaml` for deploying schema, resolvers, and data sources efficiently.
 
-### API Gateway
+### API Gateway Integration
 
-An implementation of HTTP API using API Gateway is included.
+Explore the realms of HTTP APIs with API Gateway, facilitated by an example in `src/functions/apigateway-handler` and the `cloudformation/api-gateway.yaml` for a comprehensive CloudFormation setup.
+
+Dive into this template to elevate your AWS backend development, harnessing the power of TypeScript, CloudFormation, and more, to create scalable, high-quality backend systems.
