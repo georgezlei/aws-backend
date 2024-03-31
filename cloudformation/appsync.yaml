@@ -7,6 +7,9 @@ Parameters:
   GetUserFunctionArn:
     Type: String
     Description: The Lambda function for getting user data
+  CreateUserFunctionArn:
+    Type: String
+    Description: The Lambda function for creating user data
 
 Resources:
   AppSyncRole:
@@ -98,3 +101,21 @@ Resources:
       DataSourceName: !GetAtt GetUserFunctionDataSource.Name
       TypeName: Query
       FieldName: getUser
+
+  CreateUserFunctionDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      ServiceRoleArn: !GetAtt AppSyncRole.Arn
+      Name: create_user_function_data_source
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn: !Ref CreateUserFunctionArn
+
+  CreateUserFunctionResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      DataSourceName: !GetAtt CreateUserFunctionDataSource.Name
+      TypeName: Mutation
+      FieldName: createUser
