@@ -46,3 +46,7 @@ Incorporate GraphQL into your project with an outlined schema in `appsync/schema
 Explore the realms of HTTP APIs with API Gateway, facilitated by an example in `src/functions/apigateway-handler` and the `cloudformation/api-gateway.yaml` for a comprehensive CloudFormation setup.
 
 Dive into this template to elevate your AWS backend development, harnessing the power of TypeScript, CloudFormation, and more, to create scalable, high-quality backend systems.
+
+### SNS Message Delivery
+
+Experience the power of real-time messaging with Simple Notification Service (SNS). This template includes an example of message publishing in `src/functions/sns-sender` and message receiving in `src/functions/sns-sqs-receiver`, and the `cloudformation/sns.yaml` for a complete CloudFormation setup.

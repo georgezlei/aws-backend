@@ -55,6 +55,8 @@ Resources:
 
   AppsyncSubstack:
     Type: AWS::CloudFormation::Stack
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
     Properties:
       TemplateURL: ./appsync.yaml
       Parameters:
@@ -64,8 +66,19 @@ Resources:
 
   ApiGatewaySubstack:
     Type: AWS::CloudFormation::Stack
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
     Properties:
       TemplateURL: ./api-gateway.yaml
       Parameters:
         GroupName: !Ref GroupName
         UserHandlerFunctionArn: !GetAtt ApiGatewayHandlerFunction.Arn
+
+  SnsSubstack:
+    Type: AWS::CloudFormation::Stack
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Properties:
+      TemplateURL: ./sns.yaml
+      Parameters:
+        GroupName: !Ref GroupName

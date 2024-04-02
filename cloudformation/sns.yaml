@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  GroupName:
+    Type: String
+    Description: The name of the group
+    Default: "aws-template"
+
+Resources:
+  TemplateSNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties:
+      TopicName: !Sub ${GroupName}-sns-topic
+      DisplayName: "Template SNS Topic"
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${GroupName}-sns-lambda-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: SNSPublishPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: !Ref TemplateSNSTopic
+        - PolicyName: SQSReceiveMessagePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt TemplateSQSQueue.Arn
+
+  SnsSenderFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: SnsSenderFunction
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Code: ../src/functions/sns-sender
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          TopicArn: !Ref TemplateSNSTopic
+
+  TemplateSQSQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: !Sub ${GroupName}-sqs-queue
+      MessageRetentionPeriod: 1209600 # 14 days
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+
+  TemplateSNSTopicSubscription:
+    Type: "AWS::SNS::Subscription"
+    Properties:
+      TopicArn: !Ref TemplateSNSTopic
+      Protocol: "sqs"
+      Endpoint: !GetAtt TemplateSQSQueue.Arn
+
+  SnsSqsReceiverFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: SnsSqsReceiverFunction
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Code: ../src/functions/sns-sqs-receiver
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          QueueUrl: !Ref TemplateSQSQueue
+
+  SnsSqsReceiverEventSourceMapping:
+    Type: "AWS::Lambda::EventSourceMapping"
+    Properties:
+      EventSourceArn: !GetAtt TemplateSQSQueue.Arn
+      FunctionName: !GetAtt SnsSqsReceiverFunction.Arn
+      BatchSize: 10
