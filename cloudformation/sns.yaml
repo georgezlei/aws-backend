@@ -47,10 +47,10 @@ Resources:
   SnsSenderFunction:
     Type: "AWS::Lambda::Function"
     Properties:
-      FunctionName: SnsSenderFunction
+      FunctionName: !Sub ${GroupName}-sns-sender
       Handler: index.handler
       Role: !GetAtt LambdaRole.Arn
-      Code: ../src/functions/sns-sender
+      Code: ../dist/sns-sender
       Runtime: nodejs18.x
       Environment:
         Variables:
@@ -74,10 +74,10 @@ Resources:
   SnsSqsReceiverFunction:
     Type: "AWS::Lambda::Function"
     Properties:
-      FunctionName: SnsSqsReceiverFunction
+      FunctionName: !Sub ${GroupName}-sns-sqs-receiver
       Handler: index.handler
       Role: !GetAtt LambdaRole.Arn
-      Code: ../src/functions/sns-sqs-receiver
+      Code: ../dist/sns-sqs-receiver
       Runtime: nodejs18.x
       Environment:
         Variables:

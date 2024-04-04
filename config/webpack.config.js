@@ -22,6 +22,7 @@ module.exports = {
     library: {
       type: "umd",
     },
+    chunkFormat: false, // Disable chunking
   },
   optimization: {
     usedExports: true,
@@ -30,7 +31,6 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin({ configFile: "config/tsconfig.json" })],
     extensions: [".ts", ".js"],
   },
-
   module: {
     rules: [
       {
