@@ -43,6 +43,14 @@ Resources:
                   - sqs:DeleteMessage
                   - sqs:GetQueueAttributes
                 Resource: !GetAtt TemplateSQSQueue.Arn
+        - PolicyName: SQSSendMessagePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:SendMessage
+                Resource: !GetAtt DeadLetterQueue.Arn
 
   SnsSenderFunction:
     Type: "AWS::Lambda::Function"
@@ -58,11 +66,22 @@ Resources:
 
   TemplateSQSQueue:
     Type: "AWS::SQS::Queue"
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
     Properties:
       QueueName: !Sub ${GroupName}-sqs-queue
       MessageRetentionPeriod: 1209600 # 14 days
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 5
+
+  DeadLetterQueue:
+    Type: "AWS::SQS::Queue"
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
+    Properties:
+      QueueName: !Sub ${GroupName}-sns-dead-letter-queue
+      MessageRetentionPeriod: 1209600 # 14 days
 
   TemplateSQSQueuePolicy:
     Type: "AWS::SQS::QueuePolicy"
@@ -98,6 +117,8 @@ Resources:
       Environment:
         Variables:
           QueueUrl: !Ref TemplateSQSQueue
+      DeadLetterConfig:
+        TargetArn: !GetAtt DeadLetterQueue.Arn
 
   SnsSqsReceiverEventSourceMapping:
     Type: "AWS::Lambda::EventSourceMapping"
