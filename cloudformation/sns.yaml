@@ -64,6 +64,22 @@ Resources:
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
 
+  TemplateSQSQueuePolicy:
+    Type: "AWS::SQS::QueuePolicy"
+    Properties:
+      Queues:
+        - !Ref TemplateSQSQueue
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: "*"
+            Action: "sqs:SendMessage"
+            Resource: "*"
+            Condition:
+              ArnEquals:
+                "aws:SourceArn": !Ref TemplateSNSTopic
+
   TemplateSNSTopicSubscription:
     Type: "AWS::SNS::Subscription"
     Properties:
