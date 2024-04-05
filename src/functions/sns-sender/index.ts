@@ -1,4 +1,4 @@
-import { publishToTopic } from "../../lib/sns";
+import { publishToTopic } from "@/lib/sns";
 
 const { TopicArn: topicArn } = process.env;
 

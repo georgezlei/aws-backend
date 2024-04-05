@@ -1,5 +1,5 @@
 import { AppSyncResolverEvent } from "aws-lambda";
-import { User } from "../../schemas/user";
+import { User } from "@/schemas/user";
 
 type Arguments = {
   id: string;
